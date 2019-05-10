@@ -1,172 +1,215 @@
-var table, currentRow, currentCell, enemyRow, enemyCell, direction, time;
-var x, y, a, b;
+// GAME CONTROLLER
+var gameController = (function() {
+  var stats = {
+    x: 0,
+    y: 0,
+    time: 1000,
+    direction: ""
+  };
 
-function start() {
-  x = 0;
-  y = 0;
-  time = 1000;
-  direction = "";
-  //   a = 9;
-  //   b = 9;
-  table = document.querySelector("table");
-  currentRow = table.querySelectorAll("tr")[x];
-  currentCell = currentRow.querySelectorAll("th")[y];
-  currentCell.style.background = "blue";
-  arrow = document.querySelector(".arrow");
-  winCell = table.querySelectorAll("tr")[12].querySelectorAll("th")[18];
-  winCell.style.background = "lime";
-  winCell.id = "win";
-  //   enemyRow = table.querySelectorAll("tr")[a];
-  //   enemyCell = enemyRow.querySelectorAll("th")[b];
-  //   enemyCell.style.background = "red";
-}
+  return {
+    init: function() {
+      stats.x = 0;
+      stats.y = 0;
+      stats.time = 1000;
+      stats.direction = "";
+    },
 
-start();
+    getPosition: function() {
+      return {
+        x: stats.x,
+        y: stats.y
+      };
+    },
 
-window.setInterval(function() {
-  console.log("move " + direction);
+    listener: function(code) {
+      switch (code) {
+        case 100:
+          stats.direction = "right";
+          break;
+        case 97:
+          stats.direction = "left";
+          break;
+        case 119:
+          stats.direction = "up";
+          break;
+        case 115:
+          stats.direction = "down";
+          break;
+      }
+    },
 
-  if (direction === "right" && y < 18) {
-    currentCell.style.background = "white";
-    y += 1;
-    currentRow = table.querySelectorAll("tr")[x];
-    currentCell = currentRow.querySelectorAll("th")[y];
-    currentCell.style.background = "blue";
-    check();
-  } else if (direction === "right" && y == 18) {
-    currentCell.style.background = "white";
-    lost();
-  }
+    getDirection: function() {
+      return stats.direction;
+    },
 
-  if (direction === "left" && y > 0) {
-    currentCell.style.background = "white";
-    y -= 1;
-    currentRow = table.querySelectorAll("tr")[x];
-    currentCell = currentRow.querySelectorAll("th")[y];
-    currentCell.style.background = "blue";
-    check();
-  } else if (direction === "left" && y == 0) {
-    currentCell.style.background = "white";
-    lost();
-  }
+    move: function(dir) {
+      switch (dir) {
+        case "down":
+          stats.x += 1;
+          break;
+        case "up":
+          stats.x -= 1;
+          break;
+        case "right":
+          stats.y += 1;
+          break;
+        case "left":
+          stats.y -= 1;
+          break;
+      }
+    },
 
-  if (direction === "up" && x > 0) {
-    currentCell.style.background = "white";
-    x -= 1;
-    currentRow = table.querySelectorAll("tr")[x];
-    currentCell = currentRow.querySelectorAll("th")[y];
-    currentCell.style.background = "blue";
-    check();
-  } else if (direction === "up" && x == 0) {
-    currentCell.style.background = "white";
-    lost();
-  }
+    check: function() {
+      if (stats.x < 0 || stats.y < 0 || stats.x > 18 || stats.y > 18) {
+        return false;
+      } else {
+        return true;
+      }
+    },
 
-  if (direction === "down" && x < 18) {
-    currentCell.style.background = "white";
-    x += 1;
-    currentRow = table.querySelectorAll("tr")[x];
-    currentCell = currentRow.querySelectorAll("th")[y];
-    currentCell.style.background = "blue";
-    check();
-  } else if (direction === "up" && x == 18) {
-    currentCell.style.background = "white";
-    lost();
-  }
+    didWin: function() {
+      if (stats.x == 12 && stats.y == 18) {
+        return true;
+      }
+    },
 
-  time -= 6;
-  console.log('interval is ' + time);
-  
-}, time);
+    testing: function() {
+      console.log(stats);
+    }
+  };
+})();
 
-window.addEventListener("keypress", event => {
-  console.log(event.keyCode);
+// UI CONTROLLER
 
-  // GO RIGHT
-  if (event.keyCode == 100 && y < 19) {
-    direction = "right";
-    arrow.innerHTML = "<i class='fas fa-arrow-right'></i>";
-  }
+var UIController = (function() {
 
-  // GO left
-  if (event.keyCode == 97 && y > 0) {
-    direction = "left";
-    arrow.innerHTML = "<i class='fas fa-arrow-left'></i>";
-  }
+  var DOMStrings = {
+    arrow: document.querySelector(".arrow"),
+    table: document.querySelector("table"),
+  };
 
-  // GO UP
-  if (event.keyCode == 119 && x > 0) {
-    direction = "up";
-    arrow.innerHTML = "<i class='fas fa-arrow-up'></i>";
-  }
+  var selectCell = function(pos) {
+    currRow = DOMStrings.table.querySelectorAll("tr")[pos.x];
+    currCell = currRow.querySelectorAll("th")[pos.y];
+    return currCell;
+  };
 
-  // GO DOWN
-  if (event.keyCode == 115 && x < 19) {
-    direction = "down";
-    arrow.innerHTML = "<i class='fas fa-arrow-down'></i>";
-  }
+  DOMStrings.winCell = selectCell({x: 12, y: 18});
 
-  //   ENEMY
-  // if (event.keyCode === 59 && b < 9) {
-  //     enemyCell.style.background = "white";
-  //     b += 1;
-  //     enemyRow = table.querySelectorAll("tr")[a];
-  //     enemyCell = enemyRow.querySelectorAll("th")[b];
-  //     enemyCell.style.background = "red";
-  //     enemy();
-  //   };
-  //   if (event.keyCode == 107 && b > 0) {
-  //     enemyCell.style.background = "white";
-  //     b -= 1;
-  //     enemyRow = table.querySelectorAll("tr")[a];
-  //     enemyCell = enemyRow.querySelectorAll("th")[b];
-  //     enemyCell.style.background = "red";
-  //     enemy();
-  //   };
-  //   if (event.keyCode == 111 && a > 0) {
-  //     enemyCell.style.background = "white";
-  //     a -= 1;
-  //     enemyRow = table.querySelectorAll("tr")[a];
-  //     enemyCell = enemyRow.querySelectorAll("th")[b];
-  //     enemyCell.style.background = "red";
-  //     enemy();
-  //   };
-  //   // GO DOWN
-  //   if (event.keyCode == 108 && a < 9) {
-  //     enemyCell.style.background = "white";
-  //     a += 1;
-  //     enemyRow = table.querySelectorAll("tr")[a];
-  //     enemyCell = enemyRow.querySelectorAll("th")[b];
-  //     enemyCell.style.background = "red";
-  //     enemy();
-  //   };
-});
+  return {
+    init: function(pos, i) {
+      currentCell = selectCell(pos);
+      currentCell.style.background = "blue";
+      DOMStrings.winCell.style.background = "lime";
+      DOMStrings.winCell.id = "win";
+ if(i) {
+  DOMStrings.arrow.removeChild(DOMStrings.arrow.firstChild);
+ };
+    },
 
-// function enemy() {
-//   if (x == a && y == b) {
-//     enemyCell.style.background = "white";
-//     alert("You lost!");
-//     start();
-//   }
-// }
+    check: function(pos) {
+      let currentCell;
+      currentCell = selectCell(pos);
+      if (currentCell.id == "red") {
+        return false;
+      } else {
+        return true;
+      }
+    },
 
-function check() {
-  temp = currentCell.id;
-  if (temp === "red") {
-    currentCell.style.background = "brown";
-    lost();
-    arrow.innerHTML = "";
-  }
+    clearCurrCell: function(pos) {
+      currentCell = selectCell(pos);
+      currentCell.style.background = "white";
+    },
 
-  if (temp === "win") {
-    alert("You won!");
-    start();
-    arrow.innerHTML = "";
-  }
-}
+    arrowChange: function(dir) {
+        DOMStrings.arrow.innerHTML = "<i class='fas fa-arrow-" + dir + "'></i>";
+    },
 
-function lost() {
-  alert("You lost!");
-  start();
-  arrow.innerHTML = "";
-}
+    move: function(pos) {
+      currentCell.style.background = "white";
+      currentCell = selectCell(pos);
+      currentCell.style.background = "blue";
+    }
+  };
+})();
+
+// APP CONTROLLER
+
+var appController = (function(gameCtrl, UICtrl) {
+  var pos, dir, isRed, isBorder, posTemp, appStart;
+
+  window.addEventListener("keypress", event => {
+    gameCtrl.listener(event.keyCode);
+    dir = gameCtrl.getDirection();
+    UICtrl.arrowChange(dir);
+  });
+
+  window.setInterval(function() {
+    //move stats
+    gameCtrl.move(dir);
+
+    // check border
+    isBorder = gameCtrl.check();
+    if (isBorder) {
+      pos = gameCtrl.getPosition();
+
+      // check red
+      isRed = UICtrl.check(pos);
+
+      //check stats if its not border and not red
+      if (isRed) {
+        // get position
+        posTemp = gameCtrl.getPosition();
+        // log position
+        // console.log(pos);
+
+        // move UI
+        UICtrl.move(posTemp);
+        // check if won
+        win = gameCtrl.didWin();
+        if (win) {
+          appController.win();
+        }
+      } else {
+        appController.lost();
+      }
+    } else {
+      appController.lost();
+    }
+  }, 1200);
+
+  return {
+    start: function() {
+      // set stats to 0
+      gameCtrl.init();
+      // get start position
+      pos = gameCtrl.getPosition();
+      // set UI to start
+      UICtrl.init(pos, appStart);
+      dir = "";
+      isRed = "";
+      if (!appStart) {
+        console.log("Application has started!");
+      } else {
+        console.log("Application has restarted!");
+      };
+      appStart = 1;
+    },
+
+    lost: function() {
+      alert("You lost!");
+      UICtrl.clearCurrCell(posTemp);
+      appController.start();
+    },
+
+    win: function() {
+      alert("You won!");
+      UICtrl.clearCurrCell(posTemp);
+      appController.start();
+    },
+  };
+})(gameController, UIController);
+
+appController.start();
