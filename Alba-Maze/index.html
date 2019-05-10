@@ -4,12 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+      integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+      crossorigin="anonymous"
+    />
     <title>Document</title>
   </head>
 
   <style>
-
     table {
       font-family: arial, sans-serif;
       border-collapse: collapse;
@@ -19,10 +23,9 @@
 
     td,
     th {
-      
       border: 1px solid #dddddd;
       text-align: left;
-      padding: 10px;
+      padding: 12px;
     }
 
     #red {
@@ -45,424 +48,444 @@
       text-align: center;
     }
 
+    .stats {
+      display: flex;
+      align-items: center;
+    }
+
+    .stats p {
+      margin: 0 auto;
+      display: inline;
+      float: none;
+    }
+
+    #keyCell {
+      background-image: url("img/key.png");
+      background-position: center;
+      background-size: cover;
+      background-color: blueviolet;
+    }
+
+    #doorCell { 
+      background-image: url("img/lock.png");
+      background-position: center;
+      background-size: cover;
+      background-color: blueviolet;
+    }
   </style>
   <body>
-    <!-- asd
-    <input type="text">
-    <button onclick="parseArr()">press</button> -->
+    <div class="stats">
+      <!-- <p>Time: <span class="timeCounter">-</span></p> -->
+      <p>Keys: <span class="keysCounter">-</span></p>
+    </div>
 
     <table>
-      <tbody><tr>
-        <th style="background: blue;"></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
+      <tbody>
+        <tr>
+          <th style="background: blue;"></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="win" style="background: lime;"></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th id="red"></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </tbody>
+    </table>
 
-      </tr>
-      <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="win" style="background: lime;"></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-      </tr>
-      <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th id="red"></th>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-    </tbody></table>
+    <div class="time"></div>
 
-      <div class="time">
-
-      </div>
-
-      <div class="arrow">
-
-      </div>
-    
-
+    <div class="arrow"></div>
   </body>
   <script src="script.js"></script>
 </html>

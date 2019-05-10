@@ -4,7 +4,9 @@ var gameController = (function() {
     x: 0,
     y: 0,
     time: 1000,
-    direction: ""
+    direction: "",
+    keys: 0,
+    key1: false
   };
 
   return {
@@ -13,12 +15,15 @@ var gameController = (function() {
       stats.y = 0;
       stats.time = 1000;
       stats.direction = "";
+      stats.keys = 0;
+      stats.key1 = false;
     },
 
     getPosition: function() {
       return {
         x: stats.x,
-        y: stats.y
+        y: stats.y,
+        keys: stats.y
       };
     },
 
@@ -74,6 +79,30 @@ var gameController = (function() {
       }
     },
 
+    keyCheck: function() {
+      if (!stats.key1) {
+        if (stats.x == 6 && stats.y == 16) {
+          stats.keys += 1;
+          stats.key1 = true;
+        }
+      }
+    },
+
+    getKeys: function() {
+      return {
+        keys: stats.keys,
+        key1: stats.key1
+      };
+    },
+
+    doorCheck: function(key) {
+      if (stats.x == 1 && stats.y == 14) {
+        if (key.key1 == false) {
+          appController.lost();
+        }
+      }
+    },
+
     testing: function() {
       console.log(stats);
     }
@@ -83,10 +112,10 @@ var gameController = (function() {
 // UI CONTROLLER
 
 var UIController = (function() {
-
   var DOMStrings = {
     arrow: document.querySelector(".arrow"),
     table: document.querySelector("table"),
+    keysCounter: document.querySelector(".keysCounter")
   };
 
   var selectCell = function(pos) {
@@ -95,7 +124,9 @@ var UIController = (function() {
     return currCell;
   };
 
-  DOMStrings.winCell = selectCell({x: 12, y: 18});
+  DOMStrings.winCell = selectCell({ x: 12, y: 18 });
+  DOMStrings.keyCell = selectCell({x: 6, y: 16});
+  DOMStrings.doorCell = selectCell({ x: 1, y: 14 });
 
   return {
     init: function(pos, i) {
@@ -103,15 +134,18 @@ var UIController = (function() {
       currentCell.style.background = "blue";
       DOMStrings.winCell.style.background = "lime";
       DOMStrings.winCell.id = "win";
- if(i) {
-  DOMStrings.arrow.removeChild(DOMStrings.arrow.firstChild);
- };
+      DOMStrings.keyCell.id = "keyCell";
+      DOMStrings.doorCell.id = "doorCell";
+      DOMStrings.keysCounter.innerHTML = "0";
+      if (i) {
+        DOMStrings.arrow.removeChild(DOMStrings.arrow.firstChild);
+      }
     },
 
-    check: function(pos) {
+    check: function(pos,key) {
       let currentCell;
       currentCell = selectCell(pos);
-      if (currentCell.id == "red") {
+      if (currentCell.id == "red" || (currentCell.id == "doorCell" && key.key1 == false) ) {
         return false;
       } else {
         return true;
@@ -120,17 +154,24 @@ var UIController = (function() {
 
     clearCurrCell: function(pos) {
       currentCell = selectCell(pos);
-      currentCell.style.background = "white";
+      currentCell.removeAttribute("style");
     },
 
     arrowChange: function(dir) {
-        DOMStrings.arrow.innerHTML = "<i class='fas fa-arrow-" + dir + "'></i>";
+      DOMStrings.arrow.innerHTML = "<i class='fas fa-arrow-" + dir + "'></i>";
     },
 
     move: function(pos) {
-      currentCell.style.background = "white";
+      currentCell.removeAttribute("style");
       currentCell = selectCell(pos);
       currentCell.style.background = "blue";
+    },
+
+    keyGot: function(key) {
+      DOMStrings.keysCounter.innerHTML = key.keys;
+      if (key.key1) {
+        DOMStrings.keyCell.id = "";
+      }
     }
   };
 })();
@@ -138,15 +179,17 @@ var UIController = (function() {
 // APP CONTROLLER
 
 var appController = (function(gameCtrl, UICtrl) {
-  var pos, dir, isRed, isBorder, posTemp, appStart;
+  var pos, dir, isRed, isBorder, posTemp, appStart, key, stats;
 
   window.addEventListener("keypress", event => {
+    let arrowDir;
     gameCtrl.listener(event.keyCode);
-    dir = gameCtrl.getDirection();
-    UICtrl.arrowChange(dir);
+    arrowDir = gameCtrl.getDirection();
+    UICtrl.arrowChange(arrowDir);
   });
 
   window.setInterval(function() {
+    dir = gameCtrl.getDirection();
     //move stats
     gameCtrl.move(dir);
 
@@ -156,7 +199,7 @@ var appController = (function(gameCtrl, UICtrl) {
       pos = gameCtrl.getPosition();
 
       // check red
-      isRed = UICtrl.check(pos);
+      isRed = UICtrl.check(pos,key);
 
       //check stats if its not border and not red
       if (isRed) {
@@ -165,36 +208,57 @@ var appController = (function(gameCtrl, UICtrl) {
         // log position
         // console.log(pos);
 
+        // check if got the key
+        gameCtrl.keyCheck();
+
+        // get keys quantity
+        key = gameCtrl.getKeys();
+
+        // UI keys update
+        if (key.keys) {
+          UICtrl.keyGot(key);
+        }
+
+        // door check
+        // gameCtrl.doorCheck(key);
+
+
+        
         // move UI
         UICtrl.move(posTemp);
+
         // check if won
         win = gameCtrl.didWin();
         if (win) {
           appController.win();
         }
+
+
+
+
       } else {
         appController.lost();
       }
     } else {
       appController.lost();
     }
-  }, 1200);
+  }, 1000);
 
   return {
     start: function() {
       // set stats to 0
       gameCtrl.init();
       // get start position
-      pos = gameCtrl.getPosition();
+      stats = gameCtrl.getPosition();
       // set UI to start
-      UICtrl.init(pos, appStart);
+      UICtrl.init(stats, appStart);
       dir = "";
       isRed = "";
       if (!appStart) {
         console.log("Application has started!");
       } else {
         console.log("Application has restarted!");
-      };
+      }
       appStart = 1;
     },
 
@@ -208,7 +272,7 @@ var appController = (function(gameCtrl, UICtrl) {
       alert("You won!");
       UICtrl.clearCurrCell(posTemp);
       appController.start();
-    },
+    }
   };
 })(gameController, UIController);
 
