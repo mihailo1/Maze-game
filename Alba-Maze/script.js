@@ -7,7 +7,13 @@ var gameController = (function() {
     direction: "",
     keys: 0,
     key1: false,
-    door1: false
+    key2: false,
+    key3: false,
+    key4: false,
+    door1: false,
+    door2: false,
+    door3: false,
+    door4: false
   };
 
   return {
@@ -18,7 +24,13 @@ var gameController = (function() {
       stats.direction = "";
       stats.keys = 0;
       stats.key1 = false;
+      stats.key2 = false;
+      stats.key3 = false;
+      stats.key4 = false;
       stats.door1 = false;
+      stats.door2 = false;
+      stats.door3 = false;
+      stats.door4 = false;
     },
 
     getPosition: function() {
@@ -82,12 +94,36 @@ var gameController = (function() {
     },
 
     keyCheck: function() {
-      // check if key has been collected
+      // check if key #1 has been collected
       if (!stats.key1) {
-        //check if you are at key cell, update stats     // (stats.x == 4 && stats.y == 2)
+        //check if you are at key cell, update stats     //-- (stats.x == 4 && stats.y == 2)
         if (stats.x == 6 && stats.y == 16) {
           stats.keys += 1;
           stats.key1 = true;
+        }
+      }
+      // check if key #2 has been collected
+      if (!stats.key2) {
+        //check if you are at key cell, update stats
+        if (stats.x == 8 && stats.y == 16) {
+          stats.keys += 1;
+          stats.key2 = true;
+        }
+      }
+      // check if key #3 has been collected
+      if (!stats.key3) {
+        //check if you are at key cell, update stats
+        if (stats.x == 14 && stats.y == 15) {
+          stats.keys += 1;
+          stats.key3 = true;
+        }
+      }
+      // check if key #4 has been collected
+      if (!stats.key4) {
+        //check if you are at key cell, update stats
+        if (stats.x == 14 && stats.y == 16) {
+          stats.keys += 1;
+          stats.key4 = true;
         }
       }
     },
@@ -100,12 +136,36 @@ var gameController = (function() {
     },
 
     doorCheck: function() {
-      // check if door has been opened 
+      // check if door #1 has been opened 
       if (!stats.door1) {
-        // check if you are at door cell, update stats     // (stats.x == 2 && stats.y == 1)
+        // check if you are at door cell, update stats     //-- (stats.x == 2 && stats.y == 1)
         if (stats.x == 1 && stats.y == 14) {
           stats.keys--;
           stats.door1 = true;
+        }
+      }
+      // check if door #2 has been opened 
+      if (!stats.door2) {
+        // check if you are at door cell, update stats
+        if (stats.x == 12 && stats.y == 13) {
+          stats.keys--;
+          stats.door2 = true;
+        }
+      }
+      // check if door #3 has been opened 
+      if (!stats.door3) {
+        // check if you are at door cell, update stats
+        if (stats.x == 13 && stats.y == 14) {
+          stats.keys--;
+          stats.door3 = true;
+        }
+      }
+      // check if door #4 has been opened 
+      if (!stats.door4) {
+        // check if you are at door cell, update stats
+        if (stats.x == 10 && stats.y == 11) {
+          stats.keys--;
+          stats.door4 = true;
         }
       }
     },
@@ -132,10 +192,21 @@ var UIController = (function() {
   };
 
   DOMStrings.winCell = selectCell({ x: 12, y: 18 });
-  DOMStrings.keyCell = selectCell({ x: 6, y: 16 });
-  DOMStrings.doorCell = selectCell({ x: 1, y: 14 });
-
-  /* DOMStrings.keyCell = selectCell({ x: 4, y: 2 });
+  DOMStrings.keyCells = [
+    selectCell({ x: 6, y: 16 }),
+    selectCell({ x: 8, y: 16 }),
+    selectCell({ x: 14, y: 15 }),
+    selectCell({ x: 14, y: 16 }),
+  ];
+  
+  DOMStrings.doorCells = [
+    selectCell({ x: 1, y: 14 }),
+    selectCell({ x: 12, y: 13 }),
+    selectCell({ x: 13, y: 14 }),
+    selectCell({ x: 10, y: 11 }),
+  ];
+  
+  /* DOMStrings.keyCell1 = selectCell({ x: 4, y: 2 });
   DOMStrings.doorCell = selectCell({ x: 2, y: 1 }); */
 
   return {
@@ -144,8 +215,15 @@ var UIController = (function() {
       currentCell.style.background = "blue";
       DOMStrings.winCell.style.background = "lime";
       DOMStrings.winCell.id = "win";
-      DOMStrings.keyCell.id = "keyCell";
-      DOMStrings.doorCell.id = "doorCell";
+
+      for (let i = 0; i < DOMStrings.keyCells.length; i++) {
+        DOMStrings.keyCells[i].id = "keyCell";
+      };
+
+      for (let i = 0; i < DOMStrings.doorCells.length; i++) {
+        DOMStrings.doorCells[i].id = "doorCell";
+      };
+
       DOMStrings.keysCounter.innerHTML = "0";
       if (i) {
         DOMStrings.arrow.removeChild(DOMStrings.arrow.firstChild);
@@ -183,9 +261,6 @@ var UIController = (function() {
 
     keyGot: function(key) {
       DOMStrings.keysCounter.innerHTML = key.keys;
-      if (key.key1) {
-        // DOMStrings.keyCell.id = "";
-      }
     }
   };
 })();
@@ -248,7 +323,7 @@ var appController = (function(gameCtrl, UICtrl) {
     } else {
       appController.lost();
     }
-  }, 500);
+  }, 1000);
 
   return {
     start: function() {
