@@ -53,9 +53,9 @@
       align-items: center;
     }
 
-    .stats p {
+    .stats div {
       margin: 0 auto;
-      display: inline;
+      /* display: inline; */
       float: none;
     }
 
@@ -72,11 +72,16 @@
       background-size: cover;
       background-color: blueviolet;
     }
+
+    .timeCounter {
+      font-weight: 900;
+      font-size: 2rem;
+    }
   </style>
   <body>
     <div class="stats">
-      <!-- <p>Time: <span class="timeCounter">-</span></p> -->
-      <p>Keys: <span class="keysCounter">-</span></p>
+      <!-- <div class="bar"> <div class="progress"></div></div> -->
+      <div>Keys: <span class="keysCounter">-</span></div>
     </div>
 
     <table>
@@ -85,7 +90,8 @@
           <th style="background: blue;"></th>
           <th></th>
           <th></th>
-          <th id="red"></th>
+          <th id="red"></th> 
+
           <th></th>
           <th></th>
           <th></th>
