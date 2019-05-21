@@ -186,7 +186,6 @@ var gameController = (function() {
 var UIController = (function() {
   var time;
   var DOMStrings = {
-    arrow: document.querySelector(".arrow"),
     table: document.querySelector("table"),
     keysCounter: document.querySelector(".keysCounter"),
     timeCounter: document.querySelector(".timeCounter")
@@ -222,6 +221,7 @@ var UIController = (function() {
       currentCell.style.background = "blue";
       DOMStrings.winCell.style.background = "lime";
       DOMStrings.winCell.id = "win";
+      DOMStrings.winCell.innerHTML = '';
 
       for (let i = 0; i < DOMStrings.keyCells.length; i++) {
         DOMStrings.keyCells[i].id = "keyCell";
@@ -233,7 +233,7 @@ var UIController = (function() {
 
       DOMStrings.keysCounter.innerHTML = "0";
       if (i) {
-        DOMStrings.arrow.removeChild(DOMStrings.arrow.firstChild);
+        currentCell.innerHTML = "";
       }
     },
 
@@ -256,13 +256,17 @@ var UIController = (function() {
     },
 
     arrowChange: function(dir) {
-      DOMStrings.arrow.innerHTML = "<i class='fas fa-arrow-" + dir + "'></i>";
+       currentCell.innerHTML = "<div style='position: absolute'><div class='arrow' style='position: relative; bottom: 8px; right: 6px'><i class='fas fa-arrow-" + dir + "'></i></div></div>";
     },
 
     move: function(pos) {
+      let temp;
       currentCell.id = "";
+      temp = currentCell.innerHTML;
+      currentCell.innerHTML = "";
       currentCell.removeAttribute("style");
       currentCell = selectCell(pos);
+      currentCell.innerHTML = temp;
       currentCell.style.background = "blue";
     },
 
@@ -270,13 +274,20 @@ var UIController = (function() {
       DOMStrings.keysCounter.innerHTML = key.keys;
     },
 
+    timeUpdate: function(time) {
+      if (!isNaN(time)) {
+        time = Math.round(time / 3);
+
+        document.querySelector(".progress").style.width = time +'%';
+      }
+    }
   };
 })();
 
 // APP CONTROLLER
 
 var appController = (function(gameCtrl, UICtrl) {
-  var pos, dir, isRed, isBorder, posTemp, appStart, key, stats;
+  var pos, dir, isRed, isBorder, posTemp, appStart, key, stats, time;
 
   window.addEventListener("keypress", event => {
     let arrowDir;
@@ -286,6 +297,12 @@ var appController = (function(gameCtrl, UICtrl) {
   });
 
   window.setInterval(function() {
+    time++;
+    UICtrl.timeUpdate(time);
+  }, 1);
+
+  window.setInterval(function() {
+    time = 0;
     dir = gameCtrl.getDirection();
     //move stats
     gameCtrl.move(dir);

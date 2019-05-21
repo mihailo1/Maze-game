@@ -19,12 +19,12 @@
       border-collapse: collapse;
       margin: auto;
       border: 2px solid red;
+      margin-top: 8px;
     }
 
     td,
     th {
       border: 1px solid #dddddd;
-      text-align: left;
       padding: 12px;
     }
 
@@ -32,17 +32,23 @@
       background: red;
     }
 
-    i {
-      color: rgb(74, 0, 247);
-      font-size: 20rem;
-      width: 80%;
-    }
-
-    .arrow {
-      margin: auto;
+    th {
+      margin: 0 auto;
       text-align: center;
-      width: 100%;
     }
+  
+     th div {
+      display: flex;
+      align-content: top;
+      justify-content: center;
+      margin: 0 auto;
+    } 
+
+    i {
+      color: rgb(255, 255, 255);
+      font-weight: bold;
+      font-size: 1rem;
+    } 
 
     .time {
       text-align: center;
@@ -55,8 +61,7 @@
 
     .stats div {
       margin: 0 auto;
-      /* display: inline; */
-      float: none;
+      /* float: none; */
     }
 
     #keyCell {
@@ -66,7 +71,7 @@
       background-color: blueviolet;
     }
 
-    #doorCell { 
+    #doorCell {
       background-image: url("img/lock.png");
       background-position: center;
       background-size: cover;
@@ -77,20 +82,37 @@
       font-weight: 900;
       font-size: 2rem;
     }
+
+    .bar {
+      width: 478px;
+      background-color: gray;
+      display: initial;
+    }
+
+    .progress {
+      width: 0%;
+      height: 5px;
+      background-color: red;
+    }
+
+    .keys {
+      margin-top: 5px;
+      text-align: center;
+    }
   </style>
   <body>
     <div class="stats">
-      <!-- <div class="bar"> <div class="progress"></div></div> -->
-      <div>Keys: <span class="keysCounter">-</span></div>
+      <div class="bar"><div class="progress"></div></div>
     </div>
 
     <table>
       <tbody>
         <tr>
-          <th style="background: blue;"></th>
+          <th style="background: blue;">
+          </th>
           <th></th>
           <th></th>
-          <th id="red"></th> 
+          <th id="red"></th>
 
           <th></th>
           <th></th>
@@ -489,9 +511,7 @@
       </tbody>
     </table>
 
-    <div class="time"></div>
-
-    <div class="arrow"></div>
+    <div class="keys">Keys: <span class="keysCounter">-</span></div>
   </body>
   <script src="script.js"></script>
 </html>
