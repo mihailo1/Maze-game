@@ -85,7 +85,7 @@
 
     .bar {
       width: 478px;
-      background-color: gray;
+      background-color: #d6d6d6;
       display: initial;
     }
 
@@ -511,7 +511,13 @@
       </tbody>
     </table>
 
-    <div class="keys">Keys: <span class="keysCounter">-</span></div>
+    <div class="keys">Keys: <span class="keysCounter">-</span> <br>
+      Difficulty level: <select onchange='appController.difficultySwitch()'>
+        <option value="1">Normal</option>
+        <option value="2">Nightmare</option>
+        <option value="3">Hell</option>
+      </select></div>
+
   </body>
   <script src="script.js"></script>
 </html>

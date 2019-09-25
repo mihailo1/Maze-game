@@ -27,7 +27,6 @@ var gameController = (function() {
       stats.y = 0;
       stats.time = 1000;
       stats.direction = "";
-      stats.keys = 0;
       stats.keys = [false, false, false, false];
       stats.door1 = false;
       stats.door2 = false;
@@ -80,7 +79,7 @@ var gameController = (function() {
       }
     },
 
-    check: function() {
+    frameCheck: function() {
       if (stats.x < 0 || stats.y < 0 || stats.x > 18 || stats.y > 18) {
         return false;
       } else {
@@ -89,9 +88,7 @@ var gameController = (function() {
     },
 
     didWin: function() {
-      if (stats.x == 12 && stats.y == 18) {
-        return true;
-      }
+      return (stats.x == 12 && stats.y == 18) ? true : false
     },
 
     keyCheck: function() {
@@ -126,13 +123,8 @@ var gameController = (function() {
     },
 
     getKeys: function() {
-      var temp;
-      temp = 0;
-      for (i = 0; i < stats.keys.length; i++) {
-        if (stats.keys[i]) {
-          temp++;
-        }
-      }
+      let temp = 0;
+      stats.keys.forEach(i => i ? temp++ : temp);
 
       return {
         keys: temp,
@@ -188,15 +180,14 @@ var UIController = (function() {
   var DOMStrings = {
     table: document.querySelector("table"),
     keysCounter: document.querySelector(".keysCounter"),
-    timeCounter: document.querySelector(".timeCounter")
+    timeCounter: document.querySelector(".timeCounter"),
+    select: document.querySelector("select"),
   };
 
-  var selectCell = function(pos) {
-    currRow = DOMStrings.table.querySelectorAll("tr")[pos.x];
-    currCell = currRow.querySelectorAll("th")[pos.y];
-    return currCell;
-  };
-
+  var selectCell = pos => DOMStrings.table.
+    querySelectorAll("tr")[pos.x].
+    querySelectorAll("th")[pos.y];
+  
   DOMStrings.winCell = selectCell({ x: 12, y: 18 });
   DOMStrings.keyCells = [
     selectCell({ x: 6, y: 16 }),
@@ -223,36 +214,26 @@ var UIController = (function() {
       DOMStrings.winCell.id = "win";
       DOMStrings.winCell.innerHTML = '';
 
-      for (let i = 0; i < DOMStrings.keyCells.length; i++) {
-        DOMStrings.keyCells[i].id = "keyCell";
-      }
-
-      for (let i = 0; i < DOMStrings.doorCells.length; i++) {
-        DOMStrings.doorCells[i].id = "doorCell";
-      }
+      DOMStrings.keyCells.forEach(el => el.id = "keyCell");
+      DOMStrings.doorCells.forEach(el => el.id = "doorCell");
 
       DOMStrings.keysCounter.innerHTML = "0";
-      if (i) {
-        currentCell.innerHTML = "";
-      }
+      i ? currentCell.innerHTML = "" : i;
     },
 
     check: function(pos, key) {
       let currentCell;
       currentCell = selectCell(pos);
-      if (
-        currentCell.id == "red" ||
-        (currentCell.id == "doorCell" && key.keys == 0)
-      ) {
-        return false;
-      } else {
-        return true;
-      }
+
+      return (currentCell.id == "red" ||
+        (currentCell.id == "doorCell" && key.keys == 0))
+        ? false : true
     },
 
     clearCurrCell: function(pos) {
       currentCell = selectCell(pos);
       currentCell.removeAttribute("style");
+      currentCell.innerHTML = "";
     },
 
     arrowChange: function(dir) {
@@ -270,24 +251,26 @@ var UIController = (function() {
       currentCell.style.background = "blue";
     },
 
-    keyGot: function(key) {
-      DOMStrings.keysCounter.innerHTML = key.keys;
-    },
+    keyGot: key => {DOMStrings.keysCounter.innerHTML = key.keys},
 
-    timeUpdate: function(time) {
+    timeUpdate: function(time,timeRate) {
       if (!isNaN(time)) {
         time = Math.round(time / 3);
-
-        document.querySelector(".progress").style.width = time +'%';
+        document.querySelector(".progress").style.width = time * timeRate +'%';
       }
-    }
+    },
+
+    getSelectValue: () => {return DOMStrings.
+      select.options[DOMStrings.select.selectedIndex].value;
+    },
   };
 })();
 
-// APP CONTROLLER
+// APP CONTROLLER 
 
 var appController = (function(gameCtrl, UICtrl) {
-  var pos, dir, isRed, isBorder, posTemp, appStart, key, stats, time;
+  var pos, dir, isRed, isBorder, posTemp, appStart, key,
+   stats, time, interval, timeRate, rateChange;
 
   window.addEventListener("keypress", event => {
     let arrowDir;
@@ -297,18 +280,19 @@ var appController = (function(gameCtrl, UICtrl) {
   });
 
   window.setInterval(function() {
-    time++;
-    UICtrl.timeUpdate(time);
+    if(rateChange) {
+      time++;
+    UICtrl.timeUpdate(time,timeRate);}
   }, 1);
 
-  window.setInterval(function() {
+  gameIntervalFunc = function() {
     time = 0;
     dir = gameCtrl.getDirection();
     //move stats
     gameCtrl.move(dir);
 
     // check border
-    isBorder = gameCtrl.check();
+    isBorder = gameCtrl.frameCheck();
     if (isBorder) {
       pos = gameCtrl.getPosition();
 
@@ -319,8 +303,6 @@ var appController = (function(gameCtrl, UICtrl) {
       if (isRed) {
         // get position
         posTemp = gameCtrl.getPosition();
-        // log position
-        // console.log(pos);
 
         // door check
         gameCtrl.doorCheck();
@@ -348,7 +330,11 @@ var appController = (function(gameCtrl, UICtrl) {
     } else {
       appController.lost();
     }
-  }, 1200);
+
+    rateChange = 1;
+  };
+
+  interval = window.setInterval(gameIntervalFunc, 1200);
 
   return {
     start: function() {
@@ -359,12 +345,10 @@ var appController = (function(gameCtrl, UICtrl) {
       // set UI to start
       UICtrl.init(stats, appStart);
       dir = "";
+      appController.difficultySwitch();
       isRed = "";
-      if (!appStart) {
-        console.log("Application has started!");
-      } else {
-        console.log("Application has restarted!");
-      }
+      function logOut(re) {console.log("Application has " + re + "started!")}
+      (!appStart) ? logOut('') : logOut('re');
       appStart = 1;
     },
 
@@ -378,7 +362,39 @@ var appController = (function(gameCtrl, UICtrl) {
       alert("You won!");
       UICtrl.clearCurrCell(posTemp);
       appController.start();
-    }
+    },
+
+    difficultySwitch: function() {
+      diff = UICtrl.getSelectValue();
+      clearInterval(interval);
+      rateChange = 0;
+      switch (diff) {
+        case "1":
+        interval = window.setInterval(gameIntervalFunc, 1200);
+        timeRate = 1;
+          break;
+        case "2":
+        interval = window.setInterval(gameIntervalFunc, 850);
+        timeRate = 1.4;
+          break;
+        case "3":
+        interval = window.setInterval(gameIntervalFunc, 500);
+        timeRate = 2.4;
+          break;
+      }
+      
+    },
+
+    testing: function() {
+      const cellsTest = Array.from(document.querySelectorAll('th'));
+      let c = 0;
+      cellsTest.forEach(el => {
+        if (el.id === 'red' && c < 2) {
+          el.id = '';
+          c++;
+        };
+      });
+    },
   };
 })(gameController, UIController);
 
