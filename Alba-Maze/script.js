@@ -184,9 +184,11 @@ var UIController = (function() {
     select: document.querySelector("select"),
   };
 
-  var selectCell = pos => DOMStrings.table.
+  var selectCell = pos => {
+    return DOMStrings.table.
     querySelectorAll("tr")[pos.x].
     querySelectorAll("th")[pos.y];
+  };
   
   DOMStrings.winCell = selectCell({ x: 12, y: 18 });
   DOMStrings.keyCells = [
@@ -216,7 +218,6 @@ var UIController = (function() {
 
       DOMStrings.keyCells.forEach(el => el.id = "keyCell");
       DOMStrings.doorCells.forEach(el => el.id = "doorCell");
-
       DOMStrings.keysCounter.innerHTML = "0";
       i ? currentCell.innerHTML = "" : i;
     },
