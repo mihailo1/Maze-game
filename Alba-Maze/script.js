@@ -1,6 +1,6 @@
 // GAME CONTROLLER
-var gameController = (function() {
-  var stats = {
+const gameController = (function() {
+  const stats = {
     x: 0,
     y: 0,
     time: 1000,
@@ -12,7 +12,7 @@ var gameController = (function() {
     door4: false
   };
 
-  var keyDecremention = function() {
+  const keyDecremention = function() {
     for (i = 0; i < stats.keys.length; i++) {
       if (stats.keys[i]) {
         stats.keys[i] = false;
@@ -175,20 +175,17 @@ var gameController = (function() {
 
 // UI CONTROLLER
 
-var UIController = (function() {
-  var time;
-  var DOMStrings = {
+const UIController = (function() {
+  const DOMStrings = {
     table: document.querySelector("table"),
     keysCounter: document.querySelector(".keysCounter"),
     timeCounter: document.querySelector(".timeCounter"),
     select: document.querySelector("select"),
   };
 
-  var selectCell = pos => {
-    return DOMStrings.table.
+  const selectCell = pos => DOMStrings.table.
     querySelectorAll("tr")[pos.x].
     querySelectorAll("th")[pos.y];
-  };
   
   DOMStrings.winCell = selectCell({ x: 12, y: 18 });
   DOMStrings.keyCells = [
@@ -218,6 +215,7 @@ var UIController = (function() {
 
       DOMStrings.keyCells.forEach(el => el.id = "keyCell");
       DOMStrings.doorCells.forEach(el => el.id = "doorCell");
+
       DOMStrings.keysCounter.innerHTML = "0";
       i ? currentCell.innerHTML = "" : i;
     },
@@ -238,13 +236,12 @@ var UIController = (function() {
     },
 
     arrowChange: function(dir) {
-       currentCell.innerHTML = "<div style='position: absolute'><div class='arrow' style='position: relative; bottom: 8px; right: 6px'><i class='fas fa-arrow-" + dir + "'></i></div></div>";
+       currentCell.innerHTML = `<div style='position: absolute'><div class='arrow' style='position: relative; bottom: 8px; right: 6px'><i class='fas fa-arrow-${dir}'></i></div></div>`;
     },
 
     move: function(pos) {
-      let temp;
       currentCell.id = "";
-      temp = currentCell.innerHTML;
+      let temp = currentCell.innerHTML;
       currentCell.innerHTML = "";
       currentCell.removeAttribute("style");
       currentCell = selectCell(pos);
@@ -269,12 +266,11 @@ var UIController = (function() {
 
 // APP CONTROLLER 
 
-var appController = (function(gameCtrl, UICtrl) {
-  var pos, dir, isRed, isBorder, posTemp, appStart, key,
-   stats, time, interval, timeRate, rateChange;
+const appController = (function(gameCtrl, UICtrl) {
+  let pos, dir, isRed, isBorder, posTemp, appStart, key,
+   stats, time, interval, timeRate, rateChange, arrowDir;
 
   window.addEventListener("keypress", event => {
-    let arrowDir;
     gameCtrl.listener(event.keyCode);
     arrowDir = gameCtrl.getDirection();
     UICtrl.arrowChange(arrowDir);
