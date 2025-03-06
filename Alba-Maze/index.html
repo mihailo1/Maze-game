@@ -1,523 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-      integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
-      crossorigin="anonymous"
-    />
-    <title>Document</title>
-  </head>
 
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      margin: auto;
-      border: 2px solid red;
-      margin-top: 8px;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+  <title>Document</title>
+</head>
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    margin: auto;
+    border: 2px solid red;
+    margin-top: 8px;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    padding: 12px;
+  }
+
+  #red {
+    background: red;
+  }
+
+  th {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  th div {
+    display: flex;
+    align-content: top;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  i {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  .time {
+    text-align: center;
+  }
+
+  .stats {
+    display: flex;
+    align-items: center;
+  }
+
+  .stats div {
+    margin: 0 auto;
+    /* float: none; */
+  }
+
+  #keyCell {
+    background-image: url("img/key.png");
+    background-position: center;
+    background-size: cover;
+    background-color: blueviolet;
+  }
+
+  #doorCell {
+    background-image: url("img/lock.png");
+    background-position: center;
+    background-size: cover;
+    background-color: blueviolet;
+  }
+
+  .timeCounter {
+    font-weight: 900;
+    font-size: 2rem;
+  }
+
+  .bar {
+    width: 478px;
+    background-color: #d6d6d6;
+    display: initial;
+  }
+
+  .progress {
+    width: 0%;
+    height: 5px;
+    background-color: red;
+  }
+
+  .keys {
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+
+    p {
+      margin: 0;
     }
+  }
 
-    td,
-    th {
-      border: 1px solid #dddddd;
-      padding: 12px;
-    }
+  select {
+    background: #666;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
 
-    #red {
-      background: red;
-    }
+  .level-select-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    margin: 0;
+    gap: 4px;
+  }
 
-    th {
-      margin: 0 auto;
-      text-align: center;
-    }
-  
-     th div {
-      display: flex;
-      align-content: top;
-      justify-content: center;
-      margin: 0 auto;
-    } 
+  /* Add these new dark theme styles */
+  body.dark-theme {
+    background-color: #1a1a1a;
+  }
 
-    i {
-      color: rgb(255, 255, 255);
-      font-weight: bold;
-      font-size: 1rem;
-    } 
+  body.dark-theme table {
+    border-color: #ff4444;
+  }
 
-    .time {
-      text-align: center;
-    }
+  body.dark-theme td,
+  body.dark-theme th {
+    border-color: #444;
+  }
 
-    .stats {
-      display: flex;
-      align-items: center;
-    }
+  body.dark-theme .keys {
+    color: #fff;
+  }
 
-    .stats div {
-      margin: 0 auto;
-      /* float: none; */
-    }
+  body.dark-theme .bar {
+    background-color: #444;
+  }
 
-    #keyCell {
-      background-image: url("img/key.png");
-      background-position: center;
-      background-size: cover;
-      background-color: blueviolet;
-    }
+  /* Theme toggle button style */
+  /* Theme toggle button style */
+  .theme-toggle {
+    position: relative;
+    overflow: hidden;
+    background: #666;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+  }
 
-    #doorCell {
-      background-image: url("img/lock.png");
-      background-position: center;
-      background-size: cover;
-      background-color: blueviolet;
-    }
+  .theme-toggle::after {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.5);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+  }
 
-    .timeCounter {
-      font-weight: 900;
-      font-size: 2rem;
-    }
+  /* Trigger the ripple on click */
+  .theme-toggle:active::after {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 
-    .bar {
-      width: 478px;
-      background-color: #d6d6d6;
-      display: initial;
-    }
 
-    .progress {
-      width: 0%;
-      height: 5px;
-      background-color: red;
-    }
+  .theme-toggle:hover {
+    background: #777;
+  }
+</style>
 
-    .keys {
-      margin-top: 5px;
-      text-align: center;
-    }
-  </style>
-  <body>
-    <div class="stats">
-      <div class="bar"><div class="progress"></div></div>
+<body>
+  <div class="stats">
+    <div class="bar">
+      <div class="progress"></div>
     </div>
+  </div>
 
-    <table>
-      <tbody>
-        <tr>
-          <th style="background: blue;">
-          </th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
+  <table>
+    <tbody id="maze-body"></tbody>
+  </table>
 
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="win" style="background: lime;"></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-        </tr>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th id="red"></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </tbody>
-    </table>
+  <div class="keys">
+    <p>
+      Keys: <span class="keysCounter">-</span>
+    </p>
+    <p>
+      Speed: <select>
+    </p>
+    <option value="1">😊 Normal</option>
+    <option value="2">😰 Nightmare</option>
+    <option value="3">👿 Hell</option>
+    </select>
+    <button class="theme-toggle">🌓 Theme</button>
+  </div>
 
-    <div class="keys">Keys: <span class="keysCounter">-</span> <br>
-      Difficulty level: <select onchange='appController.difficultySwitch()'>
-        <option value="1">Normal</option>
-        <option value="2">Nightmare</option>
-        <option value="3">Hell</option>
-      </select></div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.6.3/rxjs.umd.min.js"></script>
+<script src="script.js"></script>
 
-  </body>
-  <script src="script.js"></script>
 </html>
