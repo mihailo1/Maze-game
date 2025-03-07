@@ -120,11 +120,19 @@
     color: #fff;
     margin: 0;
     gap: 4px;
+
+    & label {
+      color: black;
+    }
   }
 
   /* Add these new dark theme styles */
   body.dark-theme {
     background-color: #1a1a1a;
+  }
+
+  body.dark-theme .level-select-container label {
+    color: white;
   }
 
   body.dark-theme table {
@@ -144,8 +152,6 @@
     background-color: #444;
   }
 
-  /* Theme toggle button style */
-  /* Theme toggle button style */
   .theme-toggle {
     position: relative;
     overflow: hidden;
@@ -178,7 +184,6 @@
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
-
 
   .theme-toggle:hover {
     background: #777;
