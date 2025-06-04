@@ -145,12 +145,37 @@
   }
 
   body.dark-theme .keys {
-    color: #fff;
+    color: #f8fafc;
   }
 
   body.dark-theme .bar {
     background-color: #444;
   }
+
+ body {
+  position: relative;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, #444 0%, #444 100%);
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.dark-theme {
+  background: #1a1a1a;
+}
+
+body.dark-theme::before {
+  opacity: 1;
+}
 
   .theme-toggle {
     position: relative;
